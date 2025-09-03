@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Calculator {
 
-    int boardWidth = 360;
-    int boardHeight = 540;
+    int boardWidth = 460;
+    int boardHeight = 640;
 
     Color costumCoralPink = new Color(248, 131, 121);
     Color costumClaret = new Color(156, 27, 61);
@@ -33,6 +35,7 @@ public class Calculator {
     JButton percentButton = new JButton("%");
     JButton decimalButton = new JButton(".");
     JButton signButton = new JButton("+/-");
+    JButton[] digitButton = {zeroButton, oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton};
 
     public Calculator() {
         frame.setVisible(true);
@@ -46,7 +49,7 @@ public class Calculator {
         displayTextField.setBackground(costumClaret);
         displayTextField.setForeground(Color.black);
         displayTextField.setHorizontalAlignment(JTextField.RIGHT);
-        displayTextField.setFont(new Font("Arial", Font.PLAIN, 80));
+        displayTextField.setFont(new Font("Arial", Font.PLAIN, 100));
         frame.add(displayTextField, BorderLayout.NORTH);
 
         buttonPanel.setLayout(new GridBagLayout());
@@ -112,11 +115,11 @@ public class Calculator {
         divButton.setBackground(costumRose);
         divButton.setFont(new Font("Arial", Font.BOLD, 20));
         multiButton.setBackground(costumRose);
-        multiButton.setFont(new Font("Arial", Font.BOLD, 20));
+        multiButton.setFont(new Font("Arial", Font.BOLD, 30));
         addButton.setBackground(costumRose);
         addButton.setFont(new Font("Arial", Font.BOLD, 20));
         subButton.setBackground(costumRose);
-        subButton.setFont(new Font("Arial", Font.BOLD, 20));
+        subButton.setFont(new Font("Arial", Font.BOLD, 30));
         equalButton.setBackground(costumRose);
         equalButton.setFont(new Font("Arial", Font.BOLD, 20));
         zeroButton.setBackground(costumCoralPink);
@@ -142,7 +145,20 @@ public class Calculator {
         decimalButton.setBackground(costumCoralPink);
         decimalButton.setFont(new Font("Arial", Font.BOLD, 30));
 
+        ActionListener digitListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String digit = e.getActionCommand();
+                displayTextField.setText(displayTextField.getText() + digit);
+            }
+        };
+
+        for(JButton button : digitButton) {
+            button.addActionListener(digitListener);
+        }
+
     }
+
 
     public static void main(String[] args)
     {
