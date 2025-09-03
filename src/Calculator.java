@@ -140,7 +140,7 @@ public class Calculator {
         nineButton.setBackground(costumCoralPink);
         nineButton.setFont(new Font("Arial", Font.BOLD, 20));
         decimalButton.setBackground(costumCoralPink);
-        decimalButton.setFont(new Font("Arial", Font.BOLD, 20));
+        decimalButton.setFont(new Font("Arial", Font.BOLD, 30));
 
     }
 
