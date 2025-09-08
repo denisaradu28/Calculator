@@ -36,6 +36,10 @@ public class Calculator {
     JButton decimalButton = new JButton(".");
     JButton signButton = new JButton("+/-");
     JButton[] digitButton = {zeroButton, oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton};
+    double firstNum = 0;
+    String operator = "";
+
+    JScrollPane scrollPane = new JScrollPane(displayTextField);
 
     public Calculator() {
         frame.setVisible(true);
@@ -50,11 +54,14 @@ public class Calculator {
         displayTextField.setForeground(Color.black);
         displayTextField.setHorizontalAlignment(JTextField.RIGHT);
         displayTextField.setFont(new Font("Arial", Font.PLAIN, 100));
-        frame.add(displayTextField, BorderLayout.NORTH);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBackground(costumCoralPink);
+        frame.add(scrollPane, BorderLayout.NORTH);
 
         buttonPanel.setLayout(new GridBagLayout());
         buttonPanel.setBackground(costumClaret);
         frame.add(buttonPanel, BorderLayout.CENTER);
+
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -156,6 +163,89 @@ public class Calculator {
         for(JButton button : digitButton) {
             button.addActionListener(digitListener);
         }
+
+        addButton.addActionListener(e -> {
+            firstNum = Double.parseDouble(displayTextField.getText());
+            operator = "+";
+            displayTextField.setText("");
+        });
+
+        subButton.addActionListener(e -> {
+            firstNum = Double.parseDouble(displayTextField.getText());
+            operator = "-";
+            displayTextField.setText("");
+        });
+
+        multiButton.addActionListener(e -> {
+            firstNum = Double.parseDouble(displayTextField.getText());
+            operator = "*";
+            displayTextField.setText("");
+        });
+
+        divButton.addActionListener(e -> {
+            firstNum = Double.parseDouble(displayTextField.getText());
+            operator = "/";
+            displayTextField.setText("");
+        });
+
+        percentButton.addActionListener(e -> {
+            firstNum = Double.parseDouble(displayTextField.getText());
+            operator = "%";
+            displayTextField.setText("");
+        });
+
+        equalButton.addActionListener(e -> {
+           double secondNum = Double.parseDouble(displayTextField.getText());
+           double result = 0;
+
+           switch(operator) {
+               case "+":
+                   result = firstNum + secondNum;
+                   break;
+               case  "-":
+                   result = firstNum - secondNum;
+                   break;
+               case "*":
+                   result = firstNum * secondNum;
+                   break;
+               case  "/":
+                   result = firstNum / secondNum;
+                   break;
+               case "%":
+                   result = firstNum % secondNum;
+                   break;
+           }
+
+           displayTextField.setText(Double.toString(result));
+        });
+
+        clearButton.addActionListener(e -> {
+            displayTextField.setText("");
+            firstNum = 0;
+            operator = "";
+        });
+
+        signButton.addActionListener(e -> {
+            double value = Double.parseDouble(displayTextField.getText());
+            if(value == 0){
+                displayTextField.setText("0");
+            }
+            else
+            {
+                value *= -1;
+                displayTextField.setText(Double.toString(value));
+            }
+        });
+
+        decimalButton.addActionListener(e -> {
+            String text =  displayTextField.getText();
+            if(text.isEmpty()){
+                displayTextField.setText("0.");
+            }
+            else if(!text.contains(".")){
+                displayTextField.setText(text + ".");
+            }
+        });
 
     }
 
