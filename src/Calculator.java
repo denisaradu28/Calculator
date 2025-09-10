@@ -35,9 +35,15 @@ public class Calculator {
     JButton percentButton = new JButton("%");
     JButton decimalButton = new JButton(".");
     JButton signButton = new JButton("+/-");
+    JButton squareRootButton = new JButton("√");
     JButton[] digitButton = {zeroButton, oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton, nineButton};
+    JButton MCButton = new JButton("MC");
+    JButton MPlusButton = new JButton("M+");
+    JButton MMinusButton = new JButton("M-");
+    JButton MRButton = new JButton("MR");
     double firstNum = 0;
     String operator = "";
+    double memoryValue = 0;
 
     JScrollPane scrollPane = new JScrollPane(displayTextField);
 
@@ -53,7 +59,8 @@ public class Calculator {
         displayTextField.setBackground(costumClaret);
         displayTextField.setForeground(Color.black);
         displayTextField.setHorizontalAlignment(JTextField.RIGHT);
-        displayTextField.setFont(new Font("Arial", Font.PLAIN, 100));
+        displayTextField.setFont(new Font("Arial", Font.BOLD, 50));
+        displayTextField.setPreferredSize(new Dimension(0, 120));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBackground(costumCoralPink);
         frame.add(scrollPane, BorderLayout.NORTH);
@@ -68,49 +75,59 @@ public class Calculator {
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.insets = new Insets(5, 5, 5, 5);
+
         c.gridx = 0; c.gridy = 0;
-        buttonPanel.add(clearButton, c);
+        buttonPanel.add(MCButton, c);
         c.gridx = 1; c.gridy = 0;
-        buttonPanel.add(signButton, c);
+        buttonPanel.add(MPlusButton, c);
         c.gridx = 2; c.gridy = 0;
-        buttonPanel.add(percentButton, c);
+        buttonPanel.add(MMinusButton, c);
         c.gridx = 3; c.gridy = 0;
-        buttonPanel.add(divButton, c);
+        buttonPanel.add(MRButton, c);
 
         c.gridx = 0; c.gridy = 1;
-        buttonPanel.add(sevenButton, c);
+        buttonPanel.add(clearButton, c);
         c.gridx = 1; c.gridy = 1;
-        buttonPanel.add(eightButton, c);
+        buttonPanel.add(signButton, c);
         c.gridx = 2; c.gridy = 1;
-        buttonPanel.add(nineButton, c);
+        buttonPanel.add(percentButton, c);
         c.gridx = 3; c.gridy = 1;
-        buttonPanel.add(multiButton, c);
+        buttonPanel.add(divButton, c);
 
         c.gridx = 0; c.gridy = 2;
-        buttonPanel.add(fourButton, c);
+        buttonPanel.add(sevenButton, c);
         c.gridx = 1; c.gridy = 2;
-        buttonPanel.add(fiveButton, c);
+        buttonPanel.add(eightButton, c);
         c.gridx = 2; c.gridy = 2;
-        buttonPanel.add(sixButton, c);
+        buttonPanel.add(nineButton, c);
         c.gridx = 3; c.gridy = 2;
-        buttonPanel.add(subButton, c);
+        buttonPanel.add(multiButton, c);
 
         c.gridx = 0; c.gridy = 3;
-        buttonPanel.add(oneButton, c);
+        buttonPanel.add(fourButton, c);
         c.gridx = 1; c.gridy = 3;
-        buttonPanel.add(twoButton, c);
+        buttonPanel.add(fiveButton, c);
         c.gridx = 2; c.gridy = 3;
-        buttonPanel.add(threeButton, c);
+        buttonPanel.add(sixButton, c);
         c.gridx = 3; c.gridy = 3;
-        buttonPanel.add(addButton, c);
+        buttonPanel.add(subButton, c);
 
         c.gridx = 0; c.gridy = 4;
-        c.gridwidth = 2;
-        buttonPanel.add(zeroButton, c);
-        c.gridwidth = 1;
+        buttonPanel.add(oneButton, c);
+        c.gridx = 1; c.gridy = 4;
+        buttonPanel.add(twoButton, c);
         c.gridx = 2; c.gridy = 4;
-        buttonPanel.add(decimalButton, c);
+        buttonPanel.add(threeButton, c);
         c.gridx = 3; c.gridy = 4;
+        buttonPanel.add(addButton, c);
+
+        c.gridx = 0; c.gridy = 5;
+        buttonPanel.add(zeroButton, c);
+        c.gridx = 1; c.gridy = 5;
+        buttonPanel.add(decimalButton, c);
+        c.gridx = 2; c.gridy = 5;
+        buttonPanel.add(squareRootButton, c);
+        c.gridx = 3; c.gridy = 5;
         buttonPanel.add(equalButton, c);
 
         clearButton.setBackground(costumPink);
@@ -151,81 +168,77 @@ public class Calculator {
         nineButton.setFont(new Font("Arial", Font.BOLD, 20));
         decimalButton.setBackground(costumCoralPink);
         decimalButton.setFont(new Font("Arial", Font.BOLD, 30));
+        squareRootButton.setBackground(costumCoralPink);
+        squareRootButton.setFont(new Font("Arial", Font.BOLD, 20));
+        MCButton.setBackground(costumPink);
+        MCButton.setFont(new Font("Arial", Font.BOLD, 20));
+        MPlusButton.setBackground(costumPink);
+        MPlusButton.setFont(new Font("Arial", Font.BOLD, 20));
+        MMinusButton.setBackground(costumPink);
+        MMinusButton.setFont(new Font("Arial", Font.BOLD, 20));
+        MRButton.setBackground(costumPink);
+        MRButton.setFont(new Font("Arial", Font.BOLD, 20));
 
-        ActionListener digitListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String digit = e.getActionCommand();
-                displayTextField.setText(displayTextField.getText() + digit);
-            }
+        ActionListener digitListener = e -> {
+            String digit = e.getActionCommand();
+            displayTextField.setText(displayTextField.getText() + digit);
         };
 
         for(JButton button : digitButton) {
             button.addActionListener(digitListener);
         }
 
-        addButton.addActionListener(e -> {
+        addButton.addActionListener(_ -> {
             firstNum = Double.parseDouble(displayTextField.getText());
             operator = "+";
             displayTextField.setText("");
         });
 
-        subButton.addActionListener(e -> {
+        subButton.addActionListener(_ -> {
             firstNum = Double.parseDouble(displayTextField.getText());
             operator = "-";
             displayTextField.setText("");
         });
 
-        multiButton.addActionListener(e -> {
+        multiButton.addActionListener(_ -> {
             firstNum = Double.parseDouble(displayTextField.getText());
             operator = "*";
             displayTextField.setText("");
         });
 
-        divButton.addActionListener(e -> {
+        divButton.addActionListener(_ -> {
             firstNum = Double.parseDouble(displayTextField.getText());
             operator = "/";
             displayTextField.setText("");
         });
 
-        percentButton.addActionListener(e -> {
+        percentButton.addActionListener(_ -> {
             firstNum = Double.parseDouble(displayTextField.getText());
             operator = "%";
             displayTextField.setText("");
         });
 
-        equalButton.addActionListener(e -> {
+        equalButton.addActionListener(_ -> {
            double secondNum = Double.parseDouble(displayTextField.getText());
-           double result = 0;
+           double result = switch (operator) {
+               case "+" -> firstNum + secondNum;
+               case "-" -> firstNum - secondNum;
+               case "*" -> firstNum * secondNum;
+               case "/" -> firstNum / secondNum;
+               case "%" -> firstNum % secondNum;
+               default -> 0;
+           };
 
-           switch(operator) {
-               case "+":
-                   result = firstNum + secondNum;
-                   break;
-               case  "-":
-                   result = firstNum - secondNum;
-                   break;
-               case "*":
-                   result = firstNum * secondNum;
-                   break;
-               case  "/":
-                   result = firstNum / secondNum;
-                   break;
-               case "%":
-                   result = firstNum % secondNum;
-                   break;
-           }
-
-           displayTextField.setText(Double.toString(result));
+            displayTextField.setText(Double.toString(result));
         });
 
-        clearButton.addActionListener(e -> {
+        clearButton.addActionListener(_ -> {
             displayTextField.setText("");
             firstNum = 0;
             operator = "";
         });
 
-        signButton.addActionListener(e -> {
+        signButton.addActionListener(_ -> {
             double value = Double.parseDouble(displayTextField.getText());
             if(value == 0){
                 displayTextField.setText("0");
@@ -237,7 +250,7 @@ public class Calculator {
             }
         });
 
-        decimalButton.addActionListener(e -> {
+        decimalButton.addActionListener(_ -> {
             String text =  displayTextField.getText();
             if(text.isEmpty()){
                 displayTextField.setText("0.");
@@ -247,6 +260,60 @@ public class Calculator {
             }
         });
 
+        squareRootButton.addActionListener(_ -> {
+           double crtValue  = Double.parseDouble(displayTextField.getText());
+           double result = 0;
+           if(crtValue < 0)
+               displayTextField.setText("NaN");
+           else
+               result = Math.sqrt(crtValue);
+           displayTextField.setText(Double.toString(result));
+        });
+
+        MPlusButton.addActionListener(_ -> {
+            double crtValue = Double.parseDouble(displayTextField.getText());
+           memoryValue += crtValue;
+        });
+
+        MMinusButton.addActionListener(_ -> {
+            double crtValue = Double.parseDouble(displayTextField.getText());
+            memoryValue -= crtValue;
+        });
+
+        MCButton.addActionListener(_ -> memoryValue = 0
+        );
+
+        MRButton.addActionListener(_ -> displayTextField.setText(String.valueOf(memoryValue)));
+
+        bindKey("1", oneButton);
+        bindKey("2", twoButton);
+        bindKey("3", threeButton);
+        bindKey("4", fourButton);
+        bindKey("5", fiveButton);
+        bindKey("6", sixButton);
+        bindKey("7", sevenButton);
+        bindKey("8", eightButton);
+        bindKey("9", nineButton);
+        bindKey("0", zeroButton);
+        bindKey("ADD", addButton);
+        bindKey("SUBSTRACT", subButton);
+        bindKey("MULTIPLY", multiButton);
+        bindKey("DIVIDE", divButton);
+        bindKey("ENTER", equalButton);
+        bindKey("DECIMAL", decimalButton);
+
+    }
+
+    private void bindKey(String keyStroke, JButton button){
+        InputMap im = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = frame.getRootPane().getActionMap();
+        im.put(KeyStroke.getKeyStroke(keyStroke), keyStroke);
+        am.put(keyStroke, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.doClick();
+            }
+        });
     }
 
 
