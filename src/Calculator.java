@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Calculator {
@@ -8,10 +7,10 @@ public class Calculator {
     int boardWidth = 460;
     int boardHeight = 640;
 
-    Color costumCoralPink = new Color(248, 131, 121);
-    Color costumClaret = new Color(156, 27, 61);
-    Color costumRose = new Color(243, 58, 106);
-    Color costumPink = new Color(255, 182, 193);
+    Color costumeCoralPink = new Color(248, 131, 121);
+    Color costumeClaret = new Color(156, 27, 61);
+    Color costumeRose = new Color(243, 58, 106);
+    Color costumePink = new Color(255, 182, 193);
 
     JFrame frame = new JFrame("Calculator");
     JTextField displayTextField = new JTextField();
@@ -41,11 +40,13 @@ public class Calculator {
     JButton MPlusButton = new JButton("M+");
     JButton MMinusButton = new JButton("M-");
     JButton MRButton = new JButton("MR");
+    JButton powerButton = new JButton("^");
+    JButton factorialButton = new JButton("x!");
+    JButton piButton = new JButton("π");
     double firstNum = 0;
     String operator = "";
     double memoryValue = 0;
 
-    JScrollPane scrollPane = new JScrollPane(displayTextField);
 
     public Calculator() {
         frame.setVisible(true);
@@ -56,17 +57,15 @@ public class Calculator {
         frame.setLayout(new BorderLayout());
 
         displayTextField.setEditable(false);
-        displayTextField.setBackground(costumClaret);
+        displayTextField.setBackground(costumeClaret);
         displayTextField.setForeground(Color.black);
         displayTextField.setHorizontalAlignment(JTextField.RIGHT);
         displayTextField.setFont(new Font("Arial", Font.BOLD, 50));
         displayTextField.setPreferredSize(new Dimension(0, 120));
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBackground(costumCoralPink);
-        frame.add(scrollPane, BorderLayout.NORTH);
+        frame.add(displayTextField, BorderLayout.NORTH);
 
         buttonPanel.setLayout(new GridBagLayout());
-        buttonPanel.setBackground(costumClaret);
+        buttonPanel.setBackground(costumeClaret);
         frame.add(buttonPanel, BorderLayout.CENTER);
 
 
@@ -76,115 +75,158 @@ public class Calculator {
         c.weighty = 1.0;
         c.insets = new Insets(5, 5, 5, 5);
 
-        c.gridx = 0; c.gridy = 0;
+        c.weighty = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
         buttonPanel.add(MCButton, c);
-        c.gridx = 1; c.gridy = 0;
+        c.gridx = 1;
+        c.gridy = 0;
         buttonPanel.add(MPlusButton, c);
-        c.gridx = 2; c.gridy = 0;
+        c.gridx = 2;
+        c.gridy = 0;
         buttonPanel.add(MMinusButton, c);
-        c.gridx = 3; c.gridy = 0;
+        c.gridx = 3;
+        c.gridy = 0;
         buttonPanel.add(MRButton, c);
 
-        c.gridx = 0; c.gridy = 1;
+        c.gridx = 0;
+        c.gridy = 1;
+        buttonPanel.add(powerButton, c);
+        c.gridx = 1;
+        c.gridy = 1;
+        buttonPanel.add(squareRootButton, c);
+        c.gridx = 2;
+        c.gridy = 1;
+        buttonPanel.add(factorialButton, c);
+        c.gridx = 3;
+        c.gridy = 1;
+        buttonPanel.add(piButton, c);
+
+        c.gridx = 0;
+        c.gridy = 2;
         buttonPanel.add(clearButton, c);
-        c.gridx = 1; c.gridy = 1;
+        c.gridx = 1;
+        c.gridy = 2;
         buttonPanel.add(signButton, c);
-        c.gridx = 2; c.gridy = 1;
+        c.gridx = 2;
+        c.gridy = 2;
         buttonPanel.add(percentButton, c);
-        c.gridx = 3; c.gridy = 1;
+        c.gridx = 3;
+        c.gridy = 2;
         buttonPanel.add(divButton, c);
 
-        c.gridx = 0; c.gridy = 2;
+        c.gridx = 0;
+        c.gridy = 3;
         buttonPanel.add(sevenButton, c);
-        c.gridx = 1; c.gridy = 2;
+        c.gridx = 1;
+        c.gridy = 3;
         buttonPanel.add(eightButton, c);
-        c.gridx = 2; c.gridy = 2;
+        c.gridx = 2;
+        c.gridy = 3;
         buttonPanel.add(nineButton, c);
-        c.gridx = 3; c.gridy = 2;
+        c.gridx = 3;
+        c.gridy = 3;
         buttonPanel.add(multiButton, c);
 
-        c.gridx = 0; c.gridy = 3;
+        c.gridx = 0;
+        c.gridy = 4;
         buttonPanel.add(fourButton, c);
-        c.gridx = 1; c.gridy = 3;
+        c.gridx = 1;
+        c.gridy = 4;
         buttonPanel.add(fiveButton, c);
-        c.gridx = 2; c.gridy = 3;
+        c.gridx = 2;
+        c.gridy = 4;
         buttonPanel.add(sixButton, c);
-        c.gridx = 3; c.gridy = 3;
+        c.gridx = 3;
+        c.gridy = 4;
         buttonPanel.add(subButton, c);
 
-        c.gridx = 0; c.gridy = 4;
+        c.gridx = 0;
+        c.gridy = 5;
         buttonPanel.add(oneButton, c);
-        c.gridx = 1; c.gridy = 4;
+        c.gridx = 1;
+        c.gridy = 5;
         buttonPanel.add(twoButton, c);
-        c.gridx = 2; c.gridy = 4;
+        c.gridx = 2;
+        c.gridy = 5;
         buttonPanel.add(threeButton, c);
-        c.gridx = 3; c.gridy = 4;
+        c.gridx = 3;
+        c.gridy = 5;
         buttonPanel.add(addButton, c);
 
-        c.gridx = 0; c.gridy = 5;
+        c.gridwidth = 2;
+        c.gridx = 0;
+        c.gridy = 6;
         buttonPanel.add(zeroButton, c);
-        c.gridx = 1; c.gridy = 5;
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 6;
         buttonPanel.add(decimalButton, c);
-        c.gridx = 2; c.gridy = 5;
-        buttonPanel.add(squareRootButton, c);
-        c.gridx = 3; c.gridy = 5;
+        c.gridx = 3;
+        c.gridy = 6;
         buttonPanel.add(equalButton, c);
 
-        clearButton.setBackground(costumPink);
+        clearButton.setBackground(costumePink);
         clearButton.setFont(new Font("Arial", Font.BOLD, 20));
-        signButton.setBackground(costumPink);
+        signButton.setBackground(costumePink);
         signButton.setFont(new Font("Arial", Font.BOLD, 20));
-        percentButton.setBackground(costumPink);
+        percentButton.setBackground(costumePink);
         percentButton.setFont(new Font("Arial", Font.BOLD, 20));
-        divButton.setBackground(costumRose);
+        divButton.setBackground(costumeRose);
         divButton.setFont(new Font("Arial", Font.BOLD, 20));
-        multiButton.setBackground(costumRose);
+        multiButton.setBackground(costumeRose);
         multiButton.setFont(new Font("Arial", Font.BOLD, 30));
-        addButton.setBackground(costumRose);
+        addButton.setBackground(costumeRose);
         addButton.setFont(new Font("Arial", Font.BOLD, 20));
-        subButton.setBackground(costumRose);
+        subButton.setBackground(costumeRose);
         subButton.setFont(new Font("Arial", Font.BOLD, 30));
-        equalButton.setBackground(costumRose);
+        equalButton.setBackground(costumeRose);
         equalButton.setFont(new Font("Arial", Font.BOLD, 20));
-        zeroButton.setBackground(costumCoralPink);
+        zeroButton.setBackground(costumeCoralPink);
         zeroButton.setFont(new Font("Arial", Font.BOLD, 20));
-        oneButton.setBackground(costumCoralPink);
+        oneButton.setBackground(costumeCoralPink);
         oneButton.setFont(new Font("Arial", Font.BOLD, 20));
-        twoButton.setBackground(costumCoralPink);
+        twoButton.setBackground(costumeCoralPink);
         twoButton.setFont(new Font("Arial", Font.BOLD, 20));
-        threeButton.setBackground(costumCoralPink);
+        threeButton.setBackground(costumeCoralPink);
         threeButton.setFont(new Font("Arial", Font.BOLD, 20));
-        fourButton.setBackground(costumCoralPink);
+        fourButton.setBackground(costumeCoralPink);
         fourButton.setFont(new Font("Arial", Font.BOLD, 20));
-        fiveButton.setBackground(costumCoralPink);
+        fiveButton.setBackground(costumeCoralPink);
         fiveButton.setFont(new Font("Arial", Font.BOLD, 20));
-        sixButton.setBackground(costumCoralPink);
+        sixButton.setBackground(costumeCoralPink);
         sixButton.setFont(new Font("Arial", Font.BOLD, 20));
-        sevenButton.setBackground(costumCoralPink);
+        sevenButton.setBackground(costumeCoralPink);
         sevenButton.setFont(new Font("Arial", Font.BOLD, 20));
-        eightButton.setBackground(costumCoralPink);
+        eightButton.setBackground(costumeCoralPink);
         eightButton.setFont(new Font("Arial", Font.BOLD, 20));
-        nineButton.setBackground(costumCoralPink);
+        nineButton.setBackground(costumeCoralPink);
         nineButton.setFont(new Font("Arial", Font.BOLD, 20));
-        decimalButton.setBackground(costumCoralPink);
+        decimalButton.setBackground(costumeCoralPink);
         decimalButton.setFont(new Font("Arial", Font.BOLD, 30));
-        squareRootButton.setBackground(costumCoralPink);
+        squareRootButton.setBackground(costumePink);
         squareRootButton.setFont(new Font("Arial", Font.BOLD, 20));
-        MCButton.setBackground(costumPink);
+        MCButton.setBackground(costumePink);
         MCButton.setFont(new Font("Arial", Font.BOLD, 20));
-        MPlusButton.setBackground(costumPink);
+        MPlusButton.setBackground(costumePink);
         MPlusButton.setFont(new Font("Arial", Font.BOLD, 20));
-        MMinusButton.setBackground(costumPink);
+        MMinusButton.setBackground(costumePink);
         MMinusButton.setFont(new Font("Arial", Font.BOLD, 20));
-        MRButton.setBackground(costumPink);
+        MRButton.setBackground(costumePink);
         MRButton.setFont(new Font("Arial", Font.BOLD, 20));
+        powerButton.setBackground(costumePink);
+        powerButton.setFont(new Font("Arial", Font.BOLD, 20));
+        factorialButton.setBackground(costumePink);
+        factorialButton.setFont(new Font("Arial", Font.BOLD, 20));
+        piButton.setBackground(costumePink);
+        piButton.setFont(new Font("Arial", Font.BOLD, 20));
 
         ActionListener digitListener = e -> {
             String digit = e.getActionCommand();
             displayTextField.setText(displayTextField.getText() + digit);
         };
 
-        for(JButton button : digitButton) {
+        for (JButton button : digitButton) {
             button.addActionListener(digitListener);
         }
 
@@ -219,15 +261,16 @@ public class Calculator {
         });
 
         equalButton.addActionListener(_ -> {
-           double secondNum = Double.parseDouble(displayTextField.getText());
-           double result = switch (operator) {
-               case "+" -> firstNum + secondNum;
-               case "-" -> firstNum - secondNum;
-               case "*" -> firstNum * secondNum;
-               case "/" -> firstNum / secondNum;
-               case "%" -> firstNum % secondNum;
-               default -> 0;
-           };
+            double secondNum = Double.parseDouble(displayTextField.getText());
+            double result = switch (operator) {
+                case "+" -> firstNum + secondNum;
+                case "-" -> firstNum - secondNum;
+                case "*" -> firstNum * secondNum;
+                case "/" -> firstNum / secondNum;
+                case "%" -> firstNum % secondNum;
+                case "^" -> Math.pow(firstNum, secondNum);
+                default -> 0;
+            };
 
             displayTextField.setText(Double.toString(result));
         });
@@ -240,39 +283,42 @@ public class Calculator {
 
         signButton.addActionListener(_ -> {
             double value = Double.parseDouble(displayTextField.getText());
-            if(value == 0){
+            if (value == 0) {
                 displayTextField.setText("0");
-            }
-            else
-            {
+            } else {
                 value *= -1;
                 displayTextField.setText(Double.toString(value));
             }
         });
 
         decimalButton.addActionListener(_ -> {
-            String text =  displayTextField.getText();
-            if(text.isEmpty()){
+            String text = displayTextField.getText();
+            if (text.isEmpty()) {
                 displayTextField.setText("0.");
-            }
-            else if(!text.contains(".")){
+            } else if (!text.contains(".")) {
                 displayTextField.setText(text + ".");
             }
         });
 
         squareRootButton.addActionListener(_ -> {
-           double crtValue  = Double.parseDouble(displayTextField.getText());
-           double result = 0;
-           if(crtValue < 0)
-               displayTextField.setText("NaN");
-           else
-               result = Math.sqrt(crtValue);
-           displayTextField.setText(Double.toString(result));
+            double crtValue = Double.parseDouble(displayTextField.getText());
+            double result = 0;
+            if (crtValue < 0)
+                displayTextField.setText("NaN");
+            else
+                result = Math.sqrt(crtValue);
+            displayTextField.setText(Double.toString(result));
+        });
+
+        powerButton.addActionListener(_ -> {
+            firstNum = Double.parseDouble(displayTextField.getText());
+            operator = "^";
+            displayTextField.setText("");
         });
 
         MPlusButton.addActionListener(_ -> {
             double crtValue = Double.parseDouble(displayTextField.getText());
-           memoryValue += crtValue;
+            memoryValue += crtValue;
         });
 
         MMinusButton.addActionListener(_ -> {
@@ -285,41 +331,31 @@ public class Calculator {
 
         MRButton.addActionListener(_ -> displayTextField.setText(String.valueOf(memoryValue)));
 
-        bindKey("1", oneButton);
-        bindKey("2", twoButton);
-        bindKey("3", threeButton);
-        bindKey("4", fourButton);
-        bindKey("5", fiveButton);
-        bindKey("6", sixButton);
-        bindKey("7", sevenButton);
-        bindKey("8", eightButton);
-        bindKey("9", nineButton);
-        bindKey("0", zeroButton);
-        bindKey("ADD", addButton);
-        bindKey("SUBSTRACT", subButton);
-        bindKey("MULTIPLY", multiButton);
-        bindKey("DIVIDE", divButton);
-        bindKey("ENTER", equalButton);
-        bindKey("DECIMAL", decimalButton);
-
-    }
-
-    private void bindKey(String keyStroke, JButton button){
-        InputMap im = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = frame.getRootPane().getActionMap();
-        im.put(KeyStroke.getKeyStroke(keyStroke), keyStroke);
-        am.put(keyStroke, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                button.doClick();
+        factorialButton.addActionListener(_ -> {
+            double crtValue = Double.parseDouble(displayTextField.getText());
+            int num = (int) crtValue;
+            int result = 1;
+            if (crtValue < 0)
+                displayTextField.setText("NaN");
+            else if (crtValue == 0) {
+                displayTextField.setText("1");
+            } else {
+                for (int i = 1; i <= num; i++) {
+                    result *= i;
+                }
             }
+            displayTextField.setText(Double.toString(result));
+        });
+
+        piButton.addActionListener(_ -> {
+            double pi = 3.14159265359;
+            displayTextField.setText(Double.toString(pi));
         });
     }
 
-
     public static void main(String[] args)
     {
-        Calculator calculator = new Calculator();
+        new Calculator();
     }
 }
 
